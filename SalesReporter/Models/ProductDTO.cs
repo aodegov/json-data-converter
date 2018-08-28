@@ -23,5 +23,7 @@ namespace SalesReporter.Models
         public List<SelectorsDTO> selectors { get; set; }
 
         public string short_desc { get; set; }
+
+        public List<SkuDTO> skus { get; set; }
     }
 }
