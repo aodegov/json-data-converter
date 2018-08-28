@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SalesReporter.Models;
 
 namespace SalesReporter
 {
@@ -32,7 +31,7 @@ namespace SalesReporter
 
             folderDlg.ShowNewFolderButton = true;
 
-            folderDlg.SelectedPath = isInput ? txtInput.Text : txtOutput.Text;
+            folderDlg.SelectedPath = isInput ? @"C:\temp\AndroidPixika\Android_Reports" : @"C:\temp\AndroidPixika\Windows_Reports"; //txtInput.Text : txtOutput.Text;
 
             DialogResult result = folderDlg.ShowDialog();
 
@@ -41,7 +40,8 @@ namespace SalesReporter
                 if (isInput)
                 {
                     txtInput.Text = folderDlg.SelectedPath;
-                    SetDefultStatus("Please, select output folder...");
+                    if (string.IsNullOrEmpty(txtOutput.Text))
+                        SetDefultStatus("Please, select output folder...");
                     btnOutputBrowse.Focus();
                 }
                 else
@@ -54,9 +54,14 @@ namespace SalesReporter
 
         }
 
+        private void txt_TextChanged(object sender, EventArgs e)
+        {
+            btnOK.Enabled = !string.IsNullOrEmpty(txtInput.Text.Trim()) && !string.IsNullOrEmpty(txtOutput.Text.Trim());
+        }
+
         private void btnOK_Click(object sender, EventArgs e)
         {
-
+            Reporter.CreateReports(txtInput.Text);
         }
     }
 }

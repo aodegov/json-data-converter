@@ -65,23 +65,29 @@
             // txtInput
             // 
             this.txtInput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInput.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.txtInput.Location = new System.Drawing.Point(113, 59);
             this.txtInput.Name = "txtInput";
+            this.txtInput.ReadOnly = true;
             this.txtInput.Size = new System.Drawing.Size(369, 20);
             this.txtInput.TabIndex = 2;
+            this.txtInput.TextChanged += new System.EventHandler(this.txt_TextChanged);
             // 
             // txtOutput
             // 
             this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtOutput.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.txtOutput.Location = new System.Drawing.Point(113, 133);
             this.txtOutput.Name = "txtOutput";
+            this.txtOutput.ReadOnly = true;
             this.txtOutput.Size = new System.Drawing.Size(369, 20);
             this.txtOutput.TabIndex = 3;
-            this.txtOutput.Click += new System.EventHandler(this.btnBrowse_Click);
+            this.txtOutput.TextChanged += new System.EventHandler(this.txt_TextChanged);
             // 
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.Enabled = false;
             this.btnOK.Location = new System.Drawing.Point(488, 195);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
