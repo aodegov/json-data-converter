@@ -63,7 +63,7 @@ namespace DataConverter.Builders
                                                                         }
                                                                     )
                                                 },
-                                                {"prent", "0" },
+                                                {"parent", "0" },
                                                 {"has_sub_families", false }
                                             }
                                         )

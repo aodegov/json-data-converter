@@ -31,7 +31,7 @@ namespace SalesReporter
 
             folderDlg.ShowNewFolderButton = true;
 
-            folderDlg.SelectedPath = isInput ? @"C:\temp\AndroidPixika\Android_Reports" : @"C:\temp\AndroidPixika\Windows_Reports"; //txtInput.Text : txtOutput.Text;
+            folderDlg.SelectedPath = isInput ? txtInput.Text : string.IsNullOrEmpty(txtOutput.Text) ? txtInput.Text : txtOutput.Text; // @"C:\temp\AndroidPixika\Android_Reports" : @"C:\temp\AndroidPixika\Windows_Reports";
 
             DialogResult result = folderDlg.ShowDialog();
 
@@ -40,15 +40,22 @@ namespace SalesReporter
                 if (isInput)
                 {
                     txtInput.Text = folderDlg.SelectedPath;
-                    if (string.IsNullOrEmpty(txtOutput.Text))
-                        SetDefultStatus("Please, select output folder...");
                     btnOutputBrowse.Focus();
                 }
                 else
                 {
                     txtOutput.Text = folderDlg.SelectedPath;
-                    SetDefultStatus(null, false);
+                   
                     btnOK.Focus();
+                }
+
+                if(!string.IsNullOrEmpty(txtInput.Text) && !string.IsNullOrEmpty(txtOutput.Text))
+                {
+                    SetDefultStatus(null, false);
+                }
+                else if (string.IsNullOrEmpty(txtOutput.Text))
+                {
+                    SetDefultStatus("Please, select output folder...");
                 }
             }
 
@@ -61,7 +68,20 @@ namespace SalesReporter
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            Reporter.CreateReports(txtInput.Text);
+            try
+            {
+                Reporter r = new Reporter();
+                var result = r.CreateReports(txtInput.Text, txtOutput.Text);
+                if (result)
+                {
+                    SetDefultStatus(null, false); //SetDefultStatus("Successfully created", false);
+                }
+            }
+            catch (Exception ex)
+            {
+                SetDefultStatus(ex.Message);
+            }
+            
         }
     }
 }

@@ -52,7 +52,7 @@ namespace DataConverter.Tools
                                                                                         Name = reader.GetString(1),
                                                                                         Color = reader.GetString(9),
                                                                                         Capacity = reader.GetString(7),
-                                                                                        ImagePath = reader.GetString(8),
+                                                                                        ImagePath = $"{reader.GetString(0)}.jpg", //reader.GetString(8),
                                                                                         Tariff = lstTariffs.Where(t => t.Reference == reader.GetString(0)).FirstOrDefault()
                                                                                     }
                                                                  };
@@ -71,7 +71,7 @@ namespace DataConverter.Tools
                                                     Name = reader.GetString(1),
                                                     Color = reader.GetString(9),
                                                     Capacity = reader.GetString(7),
-                                                    ImagePath = reader.GetString(8),
+                                                    ImagePath = $"{reader.GetString(0)}.jpg", //reader.GetString(8),
                                                     Tariff = lstTariffs.Where(t => t.Reference == reader.GetString(0)).FirstOrDefault()
                                                 }
                                              );
