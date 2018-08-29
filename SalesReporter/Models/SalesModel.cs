@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SalesReporter.Models
 {
     internal class SalesModel
     {
-        public List<PurchasesDTO> purchases { get; set; }
+        public List<SalesDTO> sales { get; set; }
     }
 }

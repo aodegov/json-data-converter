@@ -80,16 +80,16 @@ namespace SalesReporter
                                     "comment"                           // 10
                                    );
 
-                    foreach (var purcashe in model.Value.purchases)
+                    foreach (var purcashe in model.Value.sales)
                     {
                         foreach (var item in purcashe.basket.items)
                         {
                             file.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}",
                                             FormatCsvItem(purcashe.customer.professional_details.organization_name),    // 0
                                             FormatCsvItem(item.product_id),                                             // 1
-                                            item.qty,                                                                   // 2
+                                            FormatCsvItem(item.qty.ToString()),                                         // 2
                                             FormatCsvItem(item.sku_id),                                                 // 3
-                                            item.unit_price,                                                            // 4
+                                            FormatCsvItem(item.unit_price.ToString()),                                  // 4
                                             FormatCsvItem("EUR"),                                                       // 5
                                             FormatCsvItem(purcashe.basket.shop_id),                                     // 6
                                             FormatCsvItem(purcashe.customer.details.first_name),                        // 7
@@ -102,9 +102,9 @@ namespace SalesReporter
                         file.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}",
                                            FormatCsvItem("Total:"),                                                     // 0
                                            FormatCsvItem(string.Empty),                                                 // 1
-                                           purcashe.basket.items_quantity,                                              // 2
+                                           FormatCsvItem(purcashe.basket.items_quantity.ToString()),                    // 2
                                            FormatCsvItem(string.Empty),                                                 // 3
-                                           purcashe.basket.items_total_amount,                                          // 4
+                                           FormatCsvItem(purcashe.basket.items_total_amount.ToString()),                // 4
                                            FormatCsvItem(string.Empty),                                                 // 5
                                            FormatCsvItem(string.Empty),                                                 // 6
                                            FormatCsvItem(string.Empty),                                                 // 7

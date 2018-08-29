@@ -72,7 +72,7 @@
     <Compile Include="Models\PaymentMeansDTO.cs" />
     <Compile Include="Models\ProductDTO.cs" />
     <Compile Include="Models\ProfDetaisDTO.cs" />
-    <Compile Include="Models\PurchasesDTO.cs" />
+    <Compile Include="Models\SalesDTO.cs" />
     <Compile Include="Models\SalesModel.cs" />
     <Compile Include="Models\SelectorsDTO.cs" />
     <Compile Include="Models\SkuDTO.cs" />
