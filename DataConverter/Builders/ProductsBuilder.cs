@@ -52,7 +52,7 @@ namespace DataConverter.Builders
                                             },
                                      groups.
                                      Select
-                                     (group => 
+                                     (group =>
                                         new JObject
                                             {
                                                 { "id", group.CategoryName },
@@ -73,7 +73,7 @@ namespace DataConverter.Builders
                                      new JArray
                                      (
                                         products.
-                                        Select(product => 
+                                        Select(product =>
                                             new JObject
                                             {
                                                 {
@@ -112,16 +112,16 @@ namespace DataConverter.Builders
                                                 },
                                                 {
                                                     "skus", new JArray
-                                                            ( 
+                                                            (
                                                                 product.
                                                                 Variants.
-                                                                Select(variant => 
+                                                                Select(variant =>
                                                                         new JObject
                                                                         {
                                                                             { "id", variant.VariantReference },
                                                                             { "desc",  new JArray()},
                                                                             {
-                                                                                "name", new JArray( 
+                                                                                "name", new JArray(
                                                                                         new JObject{
                                                                                             { "lang", "en" },
                                                                                             { "text",  variant.Name}
@@ -196,7 +196,18 @@ namespace DataConverter.Builders
                                                                             { "unit",  new JArray()}
                                                                         }))
                                                         },
-
+                                                        {
+                                                            "medias", new JArray
+                                                                (
+                                                                    new JObject
+                                                                    {
+                                                                        { "type", "PICTURE" },
+                                                                        { "source", product.Variants.FirstOrDefault().ImagePath}
+                                                                })
+                                                        },
+                                                        {
+                                                            "selectors", GetSelectors(product)
+                                                        },
                                                    }
                                                 
                                    )
@@ -215,6 +226,33 @@ namespace DataConverter.Builders
                 Console.WriteLine(ex.Message);
                 throw;
             }
+        }
+
+        private JArray GetSelectors(ProductsDTO product)
+        {
+            if (product.Variants.Any(_ => !string.IsNullOrEmpty(_.Color)) && product.Variants.Any(_ => !string.IsNullOrEmpty(_.Capacity)))
+            {
+                return new JArray
+                                (
+                                        new JObject { { "spec_id", "color" } },
+                                        new JObject { { "spec_id", "capacity" } }
+                                );
+            }
+            else if (product.Variants.Any(_ => !string.IsNullOrEmpty(_.Color)))
+            {
+                return new JArray
+                                (
+                                        new JObject { { "spec_id", "color" } }
+                                );
+            }
+            else if (product.Variants.Any(_ => !string.IsNullOrEmpty(_.Capacity)))
+            {
+                return new JArray
+                                (
+                                        new JObject { { "spec_id", "capacity" } }
+                                );
+            }
+            return  new JArray();
         }
     }
 }
