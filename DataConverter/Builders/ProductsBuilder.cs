@@ -201,7 +201,7 @@ namespace DataConverter.Builders
                                                                 (
                                                                     new JObject
                                                                     {
-                                                                        { "type", "PICTURE" },
+                                                                        { "type", "image" },
                                                                         { "source", product.Variants.FirstOrDefault().ImagePath}
                                                                 })
                                                         },

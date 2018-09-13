@@ -8,6 +8,6 @@ namespace SalesReporter.Models
 {
     internal class CustomerEmailDTO
     {
-        public string personal { get; set; }
+        public string professional { get; set; }
     }
 }

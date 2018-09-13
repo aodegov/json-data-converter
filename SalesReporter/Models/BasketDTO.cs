@@ -10,7 +10,7 @@ namespace SalesReporter.Models
     {
         public string currency_iso4217 { get; set; }
 
-        public int items_quantity { get; set; }
+        public int? items_quantity { get; set; }
 
         public string total { get; set; }
 

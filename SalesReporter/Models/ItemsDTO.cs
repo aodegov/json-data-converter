@@ -14,11 +14,11 @@ namespace SalesReporter.Models
 
         public string product_id { get; set; }
 
-        public int qty { get; set; }
+        public int? qty { get; set; }
 
         public string sku_id { get; set; }
 
-        public float unit_price { get; set; }
+        public float? unit_price { get; set; }
 
         public string id { get; set; }
     }

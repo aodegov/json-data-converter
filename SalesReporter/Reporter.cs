@@ -15,6 +15,7 @@ namespace SalesReporter
     {
         private string FormatCsvItem(string content)
         {
+            content = string.IsNullOrEmpty(content) ? "" : content;
             return "\"" + content.Replace("\"", "\"\"") + "\"";
         }
 
@@ -80,21 +81,21 @@ namespace SalesReporter
                                     "comment"                           // 10
                                    );
 
-                    foreach (var purcashe in model.Value.sales)
+                    foreach (var sale in model.Value.sales)
                     {
-                        foreach (var item in purcashe.basket.items)
+                        foreach (var item in sale.basket.items)
                         {
                             file.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}",
-                                            FormatCsvItem(purcashe.customer.professional_details.organization_name),    // 0
+                                            FormatCsvItem(sale.customer.professional_details.organization_name),    // 0
                                             FormatCsvItem(item.product_id),                                             // 1
-                                            FormatCsvItem(item.qty.ToString()),                                         // 2
+                                            FormatCsvItem(item.qty == null ? "" :  item.qty.ToString()),                                         // 2
                                             FormatCsvItem(item.sku_id),                                                 // 3
-                                            FormatCsvItem(item.unit_price.ToString()),                                  // 4
+                                            FormatCsvItem(item.unit_price == null ? "" : item.unit_price.ToString()),                                  // 4
                                             FormatCsvItem("EUR"),                                                       // 5
-                                            FormatCsvItem(purcashe.basket.shop_id),                                     // 6
-                                            FormatCsvItem(purcashe.customer.details.first_name),                        // 7
-                                            FormatCsvItem(purcashe.customer.details.last_name),                         // 8
-                                            FormatCsvItem(purcashe.customer.details.email.personal),                    // 9
+                                            FormatCsvItem(sale.basket.shop_id),                                     // 6
+                                            FormatCsvItem(sale.customer.details.first_name),                        // 7
+                                            FormatCsvItem(sale.customer.details.last_name),                         // 8
+                                            FormatCsvItem(sale.customer.details.email.professional),                // 9
                                             FormatCsvItem(string.Empty)                                                 // 10
                                             );
                         }
@@ -102,15 +103,15 @@ namespace SalesReporter
                         file.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}",
                                            FormatCsvItem("Total:"),                                                     // 0
                                            FormatCsvItem(string.Empty),                                                 // 1
-                                           FormatCsvItem(purcashe.basket.items_quantity.ToString()),                    // 2
+                                           FormatCsvItem(sale.basket.items_quantity == null ? "" : sale.basket.items_quantity.ToString()),                    // 2
                                            FormatCsvItem(string.Empty),                                                 // 3
-                                           FormatCsvItem(purcashe.basket.items_total_amount.ToString()),                // 4
+                                           FormatCsvItem(sale.basket.items_total_amount),                // 4
                                            FormatCsvItem(string.Empty),                                                 // 5
                                            FormatCsvItem(string.Empty),                                                 // 6
                                            FormatCsvItem(string.Empty),                                                 // 7
                                            FormatCsvItem(string.Empty),                                                 // 8
                                            FormatCsvItem(string.Empty),                                                 // 9
-                                           FormatCsvItem(purcashe.comment)                                              // 10
+                                           FormatCsvItem(sale.comment)                                              // 10
                                            );
                     }
                 }
