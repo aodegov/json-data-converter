@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DataConverter.Tools
+namespace DataConverter.DataLoader
 {
     public abstract class DataLoader<T>
     {

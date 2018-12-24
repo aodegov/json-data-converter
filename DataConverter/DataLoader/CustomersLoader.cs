@@ -3,7 +3,7 @@ using ExcelDataReader;
 using System.Collections.Generic;
 using System.IO;
 
-namespace DataConverter.Tools
+namespace DataConverter.DataLoader
 {
     public class CustomersLoader: DataLoader<CustomersDTO>
     {
@@ -28,16 +28,17 @@ namespace DataConverter.Tools
                     var country = reader.GetString(8);
                     var currName = reader.GetString(0);
 
-                    if (country.Trim() != "France")
-                    {
-                        continue;
-                    }
+                    // Only France!!!
+                    //if (country.Trim() != "France")
+                    //{
+                    //    continue;
+                    //}
 
                     if (lastName != currName && !lstCheck.Contains(currName))
                     {
                         customer = new CustomersDTO();
                         customer.ID = id++;
-                        customer.Name = reader.GetString(0);
+                        customer.Name = reader.GetString(0)?.Trim();
                         customer.Code = reader.GetString(1);
                         customer.Address1 = reader.GetString(2);
                         customer.Address2 = reader.GetString(3);
@@ -46,7 +47,7 @@ namespace DataConverter.Tools
                         customer.City = reader.GetString(6);
                         customer.State = reader.GetString(7);
                         customer.Coutry = country;
-                        customer.PixikaEmail = reader.GetString(9);
+                        customer.PixikaEmail = reader.GetString(9)?.Trim();
                         customer.PixikaSalesType = reader.GetString(10);
                         customer.Contacts = new List<ContactsDTO>() { new ContactsDTO {
                                                                                         ContactCode = reader.GetString(11),

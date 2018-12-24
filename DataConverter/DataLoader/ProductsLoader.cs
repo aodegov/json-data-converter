@@ -1,19 +1,18 @@
 ﻿using DataConverter.Models;
 using ExcelDataReader;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace DataConverter.Tools
+namespace DataConverter.DataLoader
 {
     public class ProductsLoader : DataLoader<ProductsDTO>
     {
-        private readonly string tariffsInput;
+        private readonly IList<TariffsDTO> tariffs;
 
-        public ProductsLoader(string inputFile)
+        public ProductsLoader(IList<TariffsDTO> tariffs)
         {
-            tariffsInput = inputFile; 
+            this.tariffs = tariffs; 
         }
 
         public override List<ProductsDTO> LoadData(string file)
@@ -22,9 +21,7 @@ namespace DataConverter.Tools
 
             List<ProductsDTO> lstResult = new List<ProductsDTO>();
 
-            TariffsLoader tl = new TariffsLoader();
-            List<TariffsDTO> lstTariffs = tl.LoadData(tariffsInput);
-
+           
             using (var stream = File.Open(file, FileMode.Open, FileAccess.Read))
             {
                 var reader = ExcelReaderFactory.CreateCsvReader(stream);
@@ -53,7 +50,7 @@ namespace DataConverter.Tools
                                                                                         Color = reader.GetString(9),
                                                                                         Capacity = reader.GetString(7),
                                                                                         ImagePath = $"{reader.GetString(0)}.jpg", //reader.GetString(8),
-                                                                                        Tariff = lstTariffs.Where(t => t.Reference == reader.GetString(0)).FirstOrDefault()
+                                                                                        Tariff = tariffs.Where(t => t.Reference == reader.GetString(0)).FirstOrDefault()
                                                                                     }
                                                                  };
 
@@ -72,7 +69,7 @@ namespace DataConverter.Tools
                                                     Color = reader.GetString(9),
                                                     Capacity = reader.GetString(7),
                                                     ImagePath = $"{reader.GetString(0)}.jpg", //reader.GetString(8),
-                                                    Tariff = lstTariffs.Where(t => t.Reference == reader.GetString(0)).FirstOrDefault()
+                                                    Tariff = tariffs.Where(t => t.Reference == reader.GetString(0)).FirstOrDefault()
                                                 }
                                              );
                         lstResult[lstResult.IndexOf(product)] = product;

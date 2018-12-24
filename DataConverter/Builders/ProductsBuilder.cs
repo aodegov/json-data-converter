@@ -1,5 +1,5 @@
 ﻿using DataConverter.Models;
-using DataConverter.Tools;
+using DataConverter.DataLoader;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -9,19 +9,25 @@ using System.Linq;
 
 namespace DataConverter.Builders
 {
-    public class ProductsBuilder
+    public class ProductsBuilder : IBuilder
     {
-        private readonly ProductsLoader prodLoader;
-        private readonly string prodInput;
-        private readonly string prodOutput;
-        private readonly string groupInput;
+        private readonly ConverterConfiguration configuration;
 
-        public ProductsBuilder()
+        public ProductsBuilder(ConverterConfiguration configuration)
         {
-            prodLoader = new ProductsLoader(@"C:\temp\AndroidPixika\Load\Tariffs_Android.csv");
-            prodInput = @"C:\temp\AndroidPixika\Load\Produits_2057.csv";
-            groupInput = @"C:\temp\AndroidPixika\Load\ProductGroups.csv";
-            prodOutput = @"C:\temp\AndroidPixika\Result\Groups_and_Products.json";
+            this.configuration = configuration;
+        }
+
+        public JProperty BuildData()
+        {
+            TariffsLoader tariffsLoader = new TariffsLoader();
+            List<TariffsDTO> tariffs = tariffsLoader.LoadData(this.configuration.TariffsInputFile);
+
+            ProductsLoader productsLoader = new ProductsLoader(tariffs);
+            List<ProductsDTO> productsData = productsLoader.LoadData(this.configuration.ProductsInputFile);
+
+            var products = GetProducts(productsData);
+            return products;
         }
 
         public void BuildProducts()
@@ -29,13 +35,18 @@ namespace DataConverter.Builders
             try
             {
 
-                List<ProductsDTO> products = prodLoader.LoadData(prodInput);
+                TariffsLoader tariffsLoader = new TariffsLoader();
+                List<TariffsDTO> tariffs = tariffsLoader.LoadData(this.configuration.TariffsInputFile);
+
+                ProductsLoader productsLoader = new ProductsLoader(tariffs);
+                List<ProductsDTO> products = productsLoader.LoadData(this.configuration.ProductsInputFile);
 
                 GroupsLoader gl = new GroupsLoader();
-                List<GroupsDTO> groups = gl.LoadData(groupInput);
+                List<GroupsDTO> groups = gl.LoadData(this.configuration.GroupsInputFile);
 
                 JObject export =
-                new JObject(
+                new JObject
+                (
                     new JProperty("families",
                          new JArray(
                                      new JObject
@@ -69,8 +80,8 @@ namespace DataConverter.Builders
                                         )
                                    )
                                  ),
-                             new JProperty("products",
-                                     new JArray
+                    new JProperty("products",
+                         new JArray
                                      (
                                         products.
                                         Select(product =>
@@ -209,12 +220,13 @@ namespace DataConverter.Builders
                                                             "selectors", GetSelectors(product)
                                                         },
                                                    }
-                                                
+
                                    )
                                  )
                               )
-                           );
+                   );
 
+                var prodOutput = @"C:\temp\AndroidPixika\Result\Groups_and_Products.json";
                 using (StreamWriter file = File.CreateText(prodOutput))
                 using (JsonTextWriter writer = new JsonTextWriter(file))
                 {
@@ -226,6 +238,154 @@ namespace DataConverter.Builders
                 Console.WriteLine(ex.Message);
                 throw;
             }
+        }
+
+        private JProperty GetProducts(List<ProductsDTO> products)
+        {
+            return new JProperty("products",
+                         new JArray
+                                     (
+                                        products.
+                                        Select(product =>
+                                            new JObject
+                                            {
+                                                {
+                                                    "id", product.Reference },
+                                                {
+                                                    "name", new JArray( new JObject
+                                                                            {
+                                                                              { "lang", "en" },
+                                                                              { "text",  product.Name}
+                                                                            })
+                                                },
+                                                {
+                                                    "abstract_product", false
+                                                },
+                                                {
+                                                    "short_desc", new JArray( new JObject
+                                                                                {
+                                                                                   { "lang", "en" },
+                                                                                   { "text",  string.IsNullOrEmpty(product.ShortDescr) ? "" : $"<strong>{product.ShortDescr}</strong>"}
+                                                                                })
+                                                },
+                                                {
+                                                    "long_desc", new JArray( new JObject
+                                                                                {
+                                                                                  { "lang", "en" },
+                                                                                  { "text",  $"{product.LongDescr}"}
+                                                                                })
+                                                },
+                                                {
+                                                    "family_ids", new JArray(product.
+                                                                                Groups.
+                                                                                Split(','))
+                                                },
+                                                {
+                                                    "brand", "PIXIKA"
+                                                },
+                                                {
+                                                    "skus", new JArray
+                                                            (
+                                                                product.
+                                                                Variants.
+                                                                Select(variant =>
+                                                                        new JObject
+                                                                        {
+                                                                            { "id", variant.VariantReference },
+                                                                            { "desc",  new JArray()},
+                                                                            {
+                                                                                "name", new JArray(
+                                                                                        new JObject{
+                                                                                            { "lang", "en" },
+                                                                                            { "text",  variant.Name}
+                                                                                        })
+                                                                            },
+                                                                            {
+                                                                                "specs", new JArray
+                                                                                    (
+                                                                                        new JObject
+                                                                                        {
+                                                                                        { "id", "color" },
+                                                                                        {
+                                                                                            "spec", new JArray(
+                                                                                                        new JObject
+                                                                                                        {
+                                                                                                            { "lang", "en" },
+                                                                                                            { "text",  "Color"}
+                                                                                                        })
+                                                                                        },
+                                                                                        {
+                                                                                            "value", new JArray(
+                                                                                                        new JObject
+                                                                                                        {
+                                                                                                            { "lang", "en" },
+                                                                                                            { "text",  variant.Color}
+                                                                                                        })
+                                                                                        },
+                                                                                        { "unit",  new JArray()}
+                                                                                    },
+                                                                                        new JObject{
+                                                                                        { "id", "capacity" },
+                                                                                        {
+                                                                                            "spec", new JArray(
+                                                                                                        new JObject
+                                                                                                        {
+                                                                                                            { "lang", "en" },
+                                                                                                            { "text",  "Capacity"}
+                                                                                                        })
+                                                                                        },
+                                                                                        {
+                                                                                            "value", new JArray(
+                                                                                                        new JObject
+                                                                                                        {
+                                                                                                            { "lang", "en" },
+                                                                                                            { "text",  variant.Capacity}
+                                                                                                        })
+                                                                                        },
+                                                                                        { "unit",  new JArray()}
+                                                                                    })
+                                                                            },
+                                                                            {
+                                                                                "medias", new JArray
+                                                                                    (
+                                                                                        new JObject
+                                                                                        {
+                                                                                        { "type", "PICTURE" },
+                                                                                        { "source", variant.ImagePath}
+                                                                                    })
+                                                                            },
+                                                                            { "related_sku_ids",  new JArray()},
+                                                                            {
+                                                                                "availabilities", new JArray
+                                                                                                (
+                                                                                                    new JObject
+                                                                                                    {
+                                                                                                        { "shop_id", variant.Tariff.Shop },
+                                                                                                        { "price",  variant.Tariff.Price },
+                                                                                                        { "special_prices",  new JArray()},
+                                                                                                        { "restocking",  new JArray()},
+                                                                                                })
+                                                                            },
+                                                                            { "unit",  new JArray()}
+                                                                        }))
+                                                        },
+                                                        {
+                                                            "medias", new JArray
+                                                                (
+                                                                    new JObject
+                                                                    {
+                                                                        { "type", "image" },
+                                                                        { "source", product.Variants.FirstOrDefault().ImagePath}
+                                                                })
+                                                        },
+                                                        {
+                                                            "selectors", GetSelectors(product)
+                                                        },
+                                                   }
+
+                                   )
+                                 )
+                              );
         }
 
         private JArray GetSelectors(ProductsDTO product)
@@ -252,7 +412,7 @@ namespace DataConverter.Builders
                                         new JObject { { "spec_id", "capacity" } }
                                 );
             }
-            return  new JArray();
+            return new JArray();
         }
     }
 }

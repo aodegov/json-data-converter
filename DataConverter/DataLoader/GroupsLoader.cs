@@ -3,7 +3,7 @@ using ExcelDataReader;
 using System.Collections.Generic;
 using System.IO;
 
-namespace DataConverter.Tools
+namespace DataConverter.DataLoader
 {
     public class GroupsLoader : DataLoader<GroupsDTO>
     {
