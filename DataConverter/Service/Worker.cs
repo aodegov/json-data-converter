@@ -1,7 +1,6 @@
 ﻿using DataConverter.Builders;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 using System.IO;
 
 namespace DataConverter.Service
@@ -17,6 +16,23 @@ namespace DataConverter.Service
 
         public void CreateDB()
         {
+            JObject exportDb = GetDBData();
+
+            using (StreamWriter file = File.CreateText(this.configuration.PixikaDbOutputFile))
+            using (JsonTextWriter writer = new JsonTextWriter(file))
+            {
+                exportDb.WriteTo(writer);
+            }
+        }
+
+        private JObject GetDBData()
+        {
+            IBuilder shopsBuilder = new ShopsBuilder(this.configuration);
+            var shops = shopsBuilder.BuildData();
+
+            IBuilder sellersBuilder = new SellersBuilder(this.configuration);
+            var sellers = sellersBuilder.BuildData();
+
             IBuilder customersBuilder = new CustomerBuilder(this.configuration);
             var customers = customersBuilder.BuildData();
 
@@ -26,18 +42,7 @@ namespace DataConverter.Service
             IBuilder productsBuilder = new ProductsBuilder(this.configuration);
             var products = productsBuilder.BuildData();
 
-            JObject exportDb = GetDBData(customers, groups, products);
-
-            using (StreamWriter file = File.CreateText(this.configuration.PixikaDbOutputFile))
-            using (JsonTextWriter writer = new JsonTextWriter(file))
-            {
-                exportDb.WriteTo(writer);
-            }
-        }
-
-        private JObject GetDBData(JProperty customers, JProperty groups, JProperty products)
-        {
-            return new JObject(customers, groups, products);
+            return new JObject(shops, sellers, customers, groups, products);
         }
     }
 }
