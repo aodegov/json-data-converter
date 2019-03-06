@@ -11,7 +11,6 @@ namespace DataConverter.Builders
 {
     public class CustomerBuilder : IBuilder
     {
-
         private readonly ConverterConfiguration configuration;
 
         public CustomerBuilder(ConverterConfiguration configuration)
@@ -23,7 +22,6 @@ namespace DataConverter.Builders
         {
             CustomersLoader customersLoader = new CustomersLoader();
             List<CustomersDTO> customersData = customersLoader.LoadData(this.configuration.CustomersInputFile);
-
             var customers = GetCustomers(customersData);
             return customers;
         }
