@@ -49,22 +49,6 @@ namespace DataConverter.Builders
                                                                                     }
                                                                                 }
                                                          },
-                                                         //{ "basket", new JObject{
-                                                         //                            { "basket_offers",  new JArray() },
-                                                         //                            { "seller_offers", new JArray() },
-                                                         //                            { "items", new JArray() },
-
-                                                         //                            { "delivery_items", null },
-                                                         //                            { "currency_iso4217", "EUR" },
-                                                         //                            { "shop_id", "" },
-                                                         //                            { "delivery_fees_amount", 0.0 },
-                                                         //                            { "update_date", null },
-                                                         //                            { "items_quantity", 0 },
-                                                         //                            { "total", 0.0 },
-                                                         //                            { "total_discount", 0.0 },
-                                                         //                            { "items_total_amount", 0.0 },
-                                                         //                        }
-                                                         // },
                                                           { "pixika_email" , customer.PixikaEmail},
                                                           { "address1" , customer.Address1 },
                                                           { "address2" , customer.Address2 },
