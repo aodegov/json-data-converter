@@ -30,8 +30,8 @@ namespace DataConverter
         public string CustomersInputFile { get; set; }
 
         /// <summary>
-        /// Gets or sets pixika db output json file.
+        /// Gets or sets DT db output json file.
         /// </summary>
-        public string PixikaDbOutputFile { get; set; }
+        public string DtDbOutputFile { get; set; }
     }
 }
