@@ -71,7 +71,7 @@ namespace DataConverter.Builders
                                                                                 Split(','))
                                                 },
                                                 {
-                                                    "brand", "PIXIKA"
+                                                    "brand", "DT"
                                                 },
                                                 {
                                                     "skus", new JArray
