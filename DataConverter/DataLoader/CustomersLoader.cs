@@ -71,7 +71,7 @@ namespace DataConverter.DataLoader
                         customer.Address3 = string.IsNullOrEmpty(customer.Address3.Trim()) ? reader.GetString(4) : customer.Address3;
                         customer.ZIP = string.IsNullOrEmpty(customer.ZIP.Trim()) ? reader.GetString(5) : customer.ZIP;
                         customer.State = string.IsNullOrEmpty(customer.State.Trim()) ? reader.GetString(7) : customer.State;
-                        customer.Email = string.IsNullOrEmpty(customer.Email.Trim()) ? reader.GetString(9) : customer.PixikaEmail;
+                        customer.Email = string.IsNullOrEmpty(customer.Email.Trim()) ? reader.GetString(9) : customer.Email;
                         customer.Contacts.Add(new ContactsDTO
                                                             {
                                                                 ContactCode = reader.GetString(11),
