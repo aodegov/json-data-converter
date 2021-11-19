@@ -16,8 +16,8 @@ namespace DataConverter.Models
         public string City { get; set; }
         public string State { get; set; }
         public string Coutry { get; set; }
-        public string PixikaEmail { get; set; }
-        public string PixikaSalesType { get; set; }
+        public string Email { get; set; }
+        public string SalesType { get; set; }
         public IList<ContactsDTO> Contacts { get; set; }
     }
 }
