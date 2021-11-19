@@ -47,7 +47,7 @@ namespace DataConverter.Builders
                                                                                     }
                                                                                 }
                                                          },
-                                                          { "pixika_email" , customer.PixikaEmail},
+                                                          { "dt_email" , customer.DtEmail},
                                                           { "address1" , customer.Address1 },
                                                           { "address2" , customer.Address2 },
                                                           { "address3" , customer.Address3 },
