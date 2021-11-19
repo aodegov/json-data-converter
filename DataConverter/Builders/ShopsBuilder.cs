@@ -45,7 +45,7 @@ namespace DataConverter.Builders
                                     { "contact", new JObject{
                                                                 { "phone_number", "01 44 54 81 62" },
                                                                 { "fax_number", string.Empty },
-                                                                { "email", "info@dt.net" }
+                                                                { "email", "mail@dt.net" }
                                                             }
                                     },
                                     { "geolocation", new JObject{
