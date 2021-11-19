@@ -31,7 +31,7 @@ namespace SalesReporter
 
             folderDlg.ShowNewFolderButton = true;
 
-            folderDlg.SelectedPath = isInput ? txtInput.Text : string.IsNullOrEmpty(txtOutput.Text) ? txtInput.Text : txtOutput.Text; // @"C:\temp\AndroidPixika\Android_Reports" : @"C:\temp\AndroidPixika\Windows_Reports";
+            folderDlg.SelectedPath = isInput ? txtInput.Text : string.IsNullOrEmpty(txtOutput.Text) ? txtInput.Text : txtOutput.Text; 
 
             DialogResult result = folderDlg.ShowDialog();
 
