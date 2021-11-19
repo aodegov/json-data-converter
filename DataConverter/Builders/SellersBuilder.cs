@@ -23,15 +23,15 @@ namespace DataConverter.Builders
                   new JArray(
                       new JObject
                               {
-                                    { "id", "PIXICA" },
-                                    { "first_name", "PI" },
-                                    { "last_name", "XICA" },
+                                    { "id", "DT" },
+                                    { "first_name", "DT" },
+                                    { "last_name", "DT" },
                                     { "has_temp_password", false },
                                     { "password", "1234" },
                                     {"basket", new JObject{
                                                                 { "basket_offers", new JArray() },
                                                                 { "creation_date", "2017-12-21T15:06:01.883Z" },
-                                                                { "shop_id", "MOBILE" },
+                                                                { "shop_id", "DT" },
                                                                 { "update_date", "2018-08-14T13:50:28.970Z" },
                                                                 { "total", 0.0 },
                                                                 { "total_discount", 0.0 },
