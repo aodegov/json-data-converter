@@ -18,7 +18,7 @@ namespace DataConverter.Service
         {
             JObject exportDb = GetDBData();
 
-            using (StreamWriter file = File.CreateText(this.configuration.PixikaDbOutputFile))
+            using (StreamWriter file = File.CreateText(this.configuration.DTDbOutputFile))
             using (JsonTextWriter writer = new JsonTextWriter(file))
             {
                 exportDb.WriteTo(writer);
