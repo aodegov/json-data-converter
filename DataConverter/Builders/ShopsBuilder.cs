@@ -24,9 +24,9 @@ namespace DataConverter.Builders
                     new JArray(
                         new JObject
                                 {
-                                    { "id", "MOBILE" },
-                                    { "short_name", "PIXICA" },
-                                    { "long_name", "PIXICA" },
+                                    { "id", "DT" },
+                                    { "short_name", "DT" },
+                                    { "long_name", "DT" },
                                     {"currency", new JObject{
                                                                 { "symbol", "€" },
                                                                 { "label", "EURO" },
