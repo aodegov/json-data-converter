@@ -47,8 +47,8 @@ namespace DataConverter.DataLoader
                         customer.City = reader.GetString(6);
                         customer.State = reader.GetString(7);
                         customer.Coutry = country;
-                        customer.PixikaEmail = reader.GetString(9)?.Trim();
-                        customer.PixikaSalesType = reader.GetString(10);
+                        customer.Email = reader.GetString(9)?.Trim();
+                        customer.SalesType = reader.GetString(10);
                         customer.Contacts = new List<ContactsDTO>() { new ContactsDTO {
                                                                                         ContactCode = reader.GetString(11),
                                                                                         ContactLastName = reader.GetString(12),
@@ -71,7 +71,7 @@ namespace DataConverter.DataLoader
                         customer.Address3 = string.IsNullOrEmpty(customer.Address3.Trim()) ? reader.GetString(4) : customer.Address3;
                         customer.ZIP = string.IsNullOrEmpty(customer.ZIP.Trim()) ? reader.GetString(5) : customer.ZIP;
                         customer.State = string.IsNullOrEmpty(customer.State.Trim()) ? reader.GetString(7) : customer.State;
-                        customer.PixikaEmail = string.IsNullOrEmpty(customer.PixikaEmail.Trim()) ? reader.GetString(9) : customer.PixikaEmail;
+                        customer.Email = string.IsNullOrEmpty(customer.Email.Trim()) ? reader.GetString(9) : customer.PixikaEmail;
                         customer.Contacts.Add(new ContactsDTO
                                                             {
                                                                 ContactCode = reader.GetString(11),
